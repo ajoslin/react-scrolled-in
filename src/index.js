@@ -29,6 +29,8 @@ export default class ReactScrolledIn extends React.Component {
   }
 
   handleElementRef = element => {
+    if (this.props.ref) this.props.ref(element)
+
     if (!element || element === this.element) return
     this.element = element
     this.updateScrollElement() // the scroll element prop can depend upon the element prop ( fn(element) )
@@ -79,15 +81,11 @@ export default class ReactScrolledIn extends React.Component {
 
   updateScrollRect () {
     const {scrollElement} = this
-    const scrollRect = {}
-    if (scrollElement) {
-      const pos = DomPosition(scrollElement)
-      scrollRect.left = pos.left
-      scrollRect.top = pos.top
-      scrollRect.width = scrollElement.offsetWidth,
-      scrollRect.height = scrollElement.offsetHeight
+    this.scrollRect = !scrollElement ? {} : {
+      ...DomPosition(scrollElement),
+      width: scrollElement.offsetWidth,
+      height: scrollElement.offsetHeight
     }
-    this.scrollElement = scrollElement
   }
 
   updateElementRect () {
@@ -127,8 +125,8 @@ export default class ReactScrolledIn extends React.Component {
   }
 
   render () {
-    return React.createElement('div', {
-      ref: this.handleElementRef
-    }, this.props.render(this.state))
+    return <div {...this.props} ref={this.handleElementRef}>
+      {this.props.render(this.state)}
+    </div>
   }
 }
