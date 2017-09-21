@@ -95,7 +95,9 @@ export default class ReactScrolledIn extends React.Component {
   updateVisible () {
     const visible = this.getVisible()
     if (typeof visible === 'boolean' && visible !== this.state.visible) {
-      this.setState({ visible })
+      this.setState({ visible }, () => {
+        this.props.onChange(this.state)
+      })
     }
   }
 
