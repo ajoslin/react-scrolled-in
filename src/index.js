@@ -32,10 +32,13 @@ export default class ReactScrolledIn extends React.Component {
     if (this.props.ref) this.props.ref(element)
 
     if (!element || element === this.element) return
-    this.element = element
-    this.updateScrollElement() // the scroll element prop can depend upon the element prop ( fn(element) )
-    this.updateElementRect()
-    this.updateVisible()
+
+    setTimeout(() => {
+      this.element = element
+      this.updateScrollElement(this.props.scrollElement) // the scroll element prop can depend upon the element prop ( fn(element) )
+      this.updateElementRect()
+      this.updateVisible()
+    }, 0)
   }
 
   handleWindowResize = rafThrottle(() => {
