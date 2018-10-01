@@ -130,8 +130,9 @@ export default class ReactScrolledIn extends React.Component {
   }
 
   render () {
-    return <div {...this.props} ref={this.handleElementRef}>
-      {this.props.render(this.state)}
+    const { scrollElement, onChange, direction, render, ...rest } = this.props
+    return <div {...rest} ref={this.handleElementRef}>
+      {render(this.state)}
     </div>
   }
 }
